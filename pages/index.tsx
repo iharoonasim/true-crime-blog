@@ -1,115 +1,124 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import { useState, useEffect } from 'react';
+import Head from 'next/head';
+import Layout from '@/components/layout';
+import episodes from '@/data/episodes';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+interface BlogPost {
+  _id: string;
+  title: string;
+  content: string;
+}
 
 export default function Home() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
+
+  const filteredEpisodes = episodes.filter((episode) =>
+    episode.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  useEffect(() => {
+  const fetchBlogs = async () => {
+    const res = await fetch('/api/blog');
+    const data = await res.json();
+    
+    if (Array.isArray(data)) {
+      setBlogs(data);
+    } else if (Array.isArray(data.blogs)) {
+      setBlogs(data.blogs); // your API might return { blogs: [...] }
+    } else {
+      console.error('Unexpected API response:', data);
+      setBlogs([]); // fallback to empty
+    }
+  };
+  fetchBlogs();
+}, []);
+
+
   return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <Layout>
+      <Head>
+        <title>True Crime - Harry</title>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@400;700&display=swap"
+          rel="stylesheet"
         />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              pages/index.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        <meta name="description" content="True Crime - Harry: Chilling true crime stories and investigations." />
+        <meta property="og:title" content="True Crime - Harry" />
+        <meta property="og:description" content="Uncover dark mysteries and true crime stories." />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/images/1.jpg" />
+      </Head>
+
+      <section id="home" className="hero">
+        <h2>Welcome to True Crime - Harry</h2>
+        <p>
+          Uncover the darkest mysteries and most chilling true crime stories.
+          Subscribe and dive into the unknown.
+        </p>
+        <a
+          className="cta"
+          href="https://www.youtube.com/@mysteriousoracle"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Subscribe on YouTube
+        </a>
+      </section>
+
+      <section id="latest-video" className="section" style={{ textAlign: 'center' }}>
+        <h2>Latest Video</h2>
+        <div style={{ maxWidth: '560px', margin: '0 auto' }}>
+          <iframe
+            width="100%"
+            height="315"
+            src="https://www.youtube.com/embed/y2rdq9sNeY4"
+            title="Latest True Crime Video"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+
+      <input
+        type="text"
+        placeholder="Search episodes..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-box"
+      />
+
+      <section id="episodes" className="section">
+        <h2>Recent Episodes</h2>
+        <div className="card-container">
+          {filteredEpisodes.map((episode) => (
+            <a key={episode.id} href={`/episodes/${episode.id}`} className="card-link">
+              <div className="card">
+                <img src={episode.thumbnail} alt={episode.title} className="card-img" />
+                <h3>{episode.title}</h3>
+                <p>{episode.description}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section id="blogs" className="section">
+        <h2>Latest Blog Posts</h2>
+        {blogs.length === 0 ? (
+          <p>No blog posts yet.</p>
+        ) : (
+          <div className="blog-list">
+            {blogs.map((blog) => (
+              <div key={blog._id} className="blog-item">
+                <h3>{blog.title}</h3>
+                <p>{blog.content.slice(0, 150)}...</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+    </Layout>
   );
 }
