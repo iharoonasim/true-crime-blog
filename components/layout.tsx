@@ -13,8 +13,12 @@ export default function Layout({ children }: { children: ReactNode }) {
       </Head>
       <header className="header">
   <h1 className="site-title">True Crime - Harry</h1>
+
+  <input type="checkbox" id="menu-toggle" className="menu-toggle" />
+  <label htmlFor="menu-toggle" className="hamburger">&#9776;</label>
+
   <div className="nav-wrapper">
-    <nav>
+    <nav className="nav-links">
       <Link href="/">Home</Link>
       <Link href="/blog">Blog</Link>
       <Link href="/episodes">Episodes</Link>
@@ -30,6 +34,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     </button>
   </div>
 </header>
+
 
 
       <main>{children}</main>

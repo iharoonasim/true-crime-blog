@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import Layout from '@/components/layout'; // ✅ Adjust path if Layout is elsewhere
 
 interface Episode {
   _id: string;
@@ -30,7 +31,7 @@ export default function EpisodesPage() {
   }, []);
 
   return (
-    <>
+    <Layout>
       <Head>
         <title>Episodes | True Crime - Harry</title>
       </Head>
@@ -74,13 +75,15 @@ export default function EpisodesPage() {
                       }}
                     />
                   )}
-                  <h3 style={{ marginTop: '1rem', fontSize: '1.1rem', color: '#111' }}>{ep.title}</h3>
+                  <h3 style={{ marginTop: '1rem', fontSize: '1.1rem', color: '#111' }}>
+                    {ep.title}
+                  </h3>
                 </div>
               </Link>
             ))}
           </div>
         )}
       </section>
-    </>
+    </Layout>
   );
 }
