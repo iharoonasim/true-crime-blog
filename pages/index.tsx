@@ -104,21 +104,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="blogs" className="section">
-        <h2>Latest Blog Posts</h2>
-        {blogs.length === 0 ? (
-          <p>No blog posts yet.</p>
-        ) : (
-          <div className="blog-list">
-            {blogs.map((blog) => (
-              <div key={blog._id} className="blog-item">
-                <h3>{blog.title}</h3>
-                <p>{blog.content.slice(0, 150)}...</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
+      
     </Layout>
   );
 }

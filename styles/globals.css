@@ -253,3 +253,172 @@ input:focus, textarea:focus {
   color: #e50914;
   font-size: 2.5rem;
 }
+.blog-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 2rem 1rem;
+}
+
+.blog-heading {
+  color: #e50914;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.no-blogs {
+  color: #ccc;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.blog-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.blog-card {
+  display: block;
+  background: #111;
+  padding: 1.5rem;
+  border: 1px solid #333;
+  border-radius: 8px;
+  transition: background 0.2s ease, transform 0.2s ease;
+  text-decoration: none;
+  color: #fff;
+}
+
+.blog-card:hover {
+  background: #1a1a1a;
+  transform: scale(1.01);
+}
+
+.blog-title {
+  color: #e50914;
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+/* 📱 Mobile responsiveness */
+@media (max-width: 600px) {
+  .blog-container {
+    padding: 1rem;
+  }
+
+  .blog-title {
+    font-size: 1.1rem;
+  }
+
+  .blog-card {
+    padding: 1.2rem;
+  }
+
+  .blog-heading {
+    font-size: 1.5rem;
+  }
+}
+
+/* =======================
+   Responsive Layout
+   ======================= */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  section,
+  .section {
+    padding: 1rem 1rem;
+  }
+
+  h1, h2, h3 {
+    font-size: 1.3rem;
+    line-height: 1.4;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .hero p,
+  .section p {
+    text-align: center;
+  }
+
+  .cta {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 1rem auto;
+    padding: 0.8rem;
+    font-size: 1.1rem;
+    text-align: center;
+  }
+
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: center;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 90%;
+    padding: 1rem;
+  }
+
+  .card h3 {
+    font-size: 1.2rem;
+  }
+
+  .card p {
+    font-size: 1rem;
+  }
+
+  .card-img {
+    width: 100%;
+    height: auto;
+  }
+
+  iframe {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 9;
+  }
+
+  .search-box {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.6rem;
+    margin: 1rem 0;
+    box-sizing: border-box;
+  }
+
+  .blog-item {
+    padding: 1rem;
+    border-bottom: 1px solid #444;
+  }
+
+  .blog-item h3 {
+    font-size: 1.2rem;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav a {
+    padding: 0.5rem;
+    font-size: 1rem;
+    display: block;
+  }
+}

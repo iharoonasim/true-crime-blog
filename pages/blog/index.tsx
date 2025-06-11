@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Layout from '@/components/layout';
+import Head from 'next/head';
 
 interface BlogPost {
   _id: string;
@@ -8,52 +10,46 @@ interface BlogPost {
 }
 
 export default function BlogPage() {
-  const [blogs, setBlogs] = useState<BlogPost[] | null>(null);
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
         const res = await fetch('/api/blog');
         const data = await res.json();
-        setBlogs(data);
-      } catch (error) {
-        console.error('Failed to load blogs:', error);
-        setBlogs([]);
+        if (Array.isArray(data)) {
+          setBlogs(data);
+        } else {
+          console.error('Blog data is not an array:', data);
+        }
+      } catch (err) {
+        console.error('Error fetching blogs:', err);
       }
     };
-
     fetchBlogs();
   }, []);
 
   return (
-    <main style={{ padding: '2rem', maxWidth: '800px', margin: 'auto' }}>
-      <h1 style={{ color: '#e50914', marginBottom: '2rem' }}>📰 Blog Posts</h1>
-      {blogs === null ? (
-        <p>Loading...</p>
-      ) : blogs.length === 0 ? (
-        <p>No blog posts yet.</p>
-      ) : (
-        blogs.map((blog) => (
-          <div
-            key={blog._id}
-            style={{
-              borderBottom: '1px solid #444',
-              paddingBottom: '1.5rem',
-              marginBottom: '2rem',
-            }}
-          >
-            <h2 style={{ color: '#fff', marginBottom: '0.5rem' }}>
-  <Link
-    href={`/blog/${blog._id}`}
-    style={{ color: '#e50914', textDecoration: 'underline' }}
-  >
-    {blog.title}
-  </Link>
-</h2>
+    <Layout>
+      <Head>
+        <title>Blog – True Crime Harry</title>
+      </Head>
 
+      <section className="blog-container">
+        <h1 className="blog-heading">Latest Blog Posts</h1>
+
+        {blogs.length === 0 ? (
+          <p className="no-blogs">No blog posts found.</p>
+        ) : (
+          <div className="blog-list">
+            {blogs.map((blog) => (
+              <Link key={blog._id} href={`/blog/${blog._id}`} className="blog-card">
+                <h2 className="blog-title">{blog.title}</h2>
+              </Link>
+            ))}
           </div>
-        ))
-      )}
-    </main>
+        )}
+      </section>
+    </Layout>
   );
 }
